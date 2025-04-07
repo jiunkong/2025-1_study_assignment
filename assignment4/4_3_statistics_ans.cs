@@ -19,9 +19,54 @@ namespace statistics
             // double.Parse(str)
 
             int stdCount = data.GetLength(0) - 1;
-            // ---------- TODO ----------
             
-            // --------------------
+            double[] average = new double[3]; // math, science, english
+            Tuple<int, double>[] totalscore = new Tuple<int, double>[stdCount];
+            double[] maxscore = { 0, 0, 0 };
+            double[] minscore = { 1000, 1000, 1000 };
+            
+            for (int i = 0; i < stdCount; i++) {
+                double t = 0.0;
+                for (int j = 0; j < 3; j++) t += double.Parse(data[i+1,j+2]);
+                totalscore[i] = Tuple.Create(i, t);
+            }
+            
+            Array.Sort(totalscore, (a, b) => a.Item2 > b.Item2 ? 1 : -1);
+            
+            for (int i = 0; i < 3; i++) { // subject
+                double total = 0.0;
+                for (int j = 0; j < stdCount; j++) {
+                    double score = double.Parse(data[j+1,i+2]);
+                    total += score;
+                    if (maxscore[i] < score) maxscore[i] = score;
+                    if (minscore[i] > score) minscore[i] = score;
+                }
+                average[i] = total / stdCount;
+            }
+            Console.WriteLine("Average Scores:");
+            for (int i = 0; i < 3; i++) {
+                Console.WriteLine($"{data[0,i+2]}: {average[i]:0.00}");
+            }
+
+            Console.WriteLine("\nMax and min Scores:");
+            for (int i = 0; i < 3; i++) {
+                Console.WriteLine($"{data[0,i+2]}: ({maxscore[i]}, {minscore[i]})");
+            }
+            
+            Console.WriteLine("\nStudents rank by total scores:");
+            for (int i = 0; i < stdCount; i++) {
+                for (int j = 0; j < stdCount; j++) {
+                    if (totalscore[j].Item1 == i) {
+                        string rank = (j+1).ToString();
+                        if (rank == "1") rank += "st";
+                        else if (rank == "2") rank += "nd";
+                        else if (rank == "3") rank += "rd";
+                        else rank += "th";
+                        Console.WriteLine($"{data[i+1,1]}: {rank}");
+                        break;
+                    }
+                }
+            }
         }
     }
 }
