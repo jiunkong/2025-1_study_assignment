@@ -31,7 +31,7 @@ namespace statistics
                 totalscore[i] = Tuple.Create(i, t);
             }
             
-            Array.Sort(totalscore, (a, b) => a.Item2 > b.Item2 ? 1 : -1);
+            Array.Sort(totalscore, (a, b) => a.Item2 < b.Item2 ? 1 : -1);
             
             for (int i = 0; i < 3; i++) { // subject
                 double total = 0.0;
