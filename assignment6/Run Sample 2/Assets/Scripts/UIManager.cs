@@ -25,6 +25,11 @@ public class UIManager : MonoBehaviour
     {
         StartCoroutine(DisplayMessageCoroutine(message, duration));
     }
+
+    public void ActiveButton()
+    {
+        RestartButton.SetActive(true);
+    }
     IEnumerator DisplayMessageCoroutine(string message, float duration)
     {
         MessageText.text = message;
